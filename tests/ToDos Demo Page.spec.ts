@@ -1,8 +1,14 @@
 import { test, expect } from '@playwright/test';
 
-let  toDo : string = "Buy Milk!";
-let  toDo2 : string = "Buy Bread!";
-let  toDo3 : string = "Buy Plane Tickets to Japan";
+const  toDo : string = "Buy Milk!";
+const  toDo2 : string = "Buy Bread!";
+const  toDo3 : string = "Buy Plane Tickets to Japan";
+const zeroWidthSpace: string = '\u200B';
+const zeroWidthJoiner: string = '\u200D';
+const NBSP: string = '\u00A0';
+const airplaneEmoji: any = "✈️";
+const darkSkinToneThumbUp: any = "👍🏿";
+const thumbUpEmoji: any = "👍";
 
 
 test('Adding New Todo Item', async ({ page }) => 
@@ -37,13 +43,16 @@ test('Marking a Todo Item as Complete', async({page}) =>
     {
   await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(toDo);
   await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-  expect (page.locator('footer.footer')).toBeVisible;
-  expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible;
+  //As the Footer will only appear once there are ToDos available 
+  //we can use this to assert that a ToDo was added succeesfully.
+  await expect (page.getByTestId('todo-count')).toBeVisible();
 
 await test.step('Mark Added ToDo as Completed', async() =>
     {
   await page.getByRole('checkbox', { name: 'Toggle Todo' }).click();
    await expect (page.getByText('0 items left')).toBeVisible();
+    await expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible();
+
     });
 
   });
@@ -62,15 +71,14 @@ test('Deleting a todo item', async({page}) =>
     {
   await page.getByRole('textbox', { name: 'What needs to be done?' }).fill('Buy Milk!');
   await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-  expect (page.locator('footer.footer')).toBeVisible;
-  expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible;
+  await expect (page.locator('footer.footer')).toBeVisible();
     });
 
 await test.step ('Deleting Active ToDo Item', async() =>
     
         {
         await page.getByTestId('todo-title').hover();
-          expect (page.getByRole('button', { name: 'Delete' })).toBeVisible();
+        await  expect (page.getByRole('button', { name: 'Delete' })).toBeVisible();
         await page.getByRole('button', { name: 'Delete' }).click();
         });
 
@@ -78,21 +86,22 @@ await test.step ('Deleting Active ToDo Item', async() =>
     {
   await page.getByRole('textbox', { name: 'What needs to be done?' }).fill('Buy Bread!');
   await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-  expect (page.locator('footer.footer')).toBeVisible;
-  expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible;
+  await expect (page.locator('footer.footer')).toBeVisible();
     });
 
 
 await test.step('Mark Added ToDo as Completed', async() =>
     {
   await page.getByRole('checkbox', { name: 'Toggle Todo' }).click();
-    expect (page.getByText('0 items left')).toBeVisible();
+    await expect (page.getByText('0 items left')).toBeVisible();
+    await  expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible();
+
     });
 await test.step ('Deleting Compelted ToDo Item', async() =>
     
         {
         await page.getByTestId('todo-title').hover();
-          expect (page.getByRole('button', { name: 'Delete' })).toBeVisible();
+        await expect (page.getByRole('button', { name: 'Delete' })).toBeVisible();
         await page.getByRole('button', { name: 'Delete' }).click();
         });
       });
@@ -113,13 +122,15 @@ await test.step ('Deleting Compelted ToDo Item', async() =>
   await test.step('Add second todo item', async () => {
     await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(toDo2);
     await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-    await expect(page.getByTestId('todo-title').getByText(toDo2)).toBeVisible;
+    await expect(page.getByTestId('todo-title').getByText(toDo2)).toBeVisible();
   });
 
   await test.step('Mark second todo as completed', async () => {
     const completedItem = page.locator('li').filter({ hasText: toDo2 });
     await completedItem.getByRole('checkbox').check();
     await expect(completedItem).toHaveClass(/completed/);
+    await expect (page.getByRole('button', { name: 'Clear completed' })).toBeVisible();
+
   });
 
   await test.step('Toggle Active filter', async () => {
@@ -135,7 +146,7 @@ await test.step ('Deleting Compelted ToDo Item', async() =>
   });
  });
 
-test('Edge Case: Duplucate ToDos', async ({ page }) => 
+test('Edge Case: Specialized Characters & U+ Characters', async ({ page }) => 
   {
 await test.step ('Navigate to the App', async() => 
 {
@@ -143,23 +154,50 @@ await test.step ('Navigate to the App', async() =>
   await expect(page.getByRole('textbox', { name: 'What needs to be done?' })).toBeVisible();
 });
 
+      test.fail();
+// Negative Test Case:
+// The thought behind this test is using special characters such as emojis or Unicode characters.
+// Its known in many apps, and reported that Banks have had their apps crash when a user enters an emoji into
+// the comments/note field. This test is made to mimic this idea, as well as a user posible copying and pasting 
+// a unicode characer (On purpose or not). This could lead to allowing a ToDo with a leading blank space to be entered
+// or worse, a possible application crash, if the app or a database isn't able to accept it.
 
-await test.step ('Adding ToDo Item', async() => 
+
+await test.step ('Adding ToDo Item ✈️', async() => 
 {
-  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(toDo3);
+
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(airplaneEmoji);
   await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-  await expect(page.getByTestId('todo-title')).toBeVisible();
-  await expect(page.locator('body')).toContainText('1 item left');
+  await expect(page.getByTestId('todo-title')).toHaveCount(1);
+    await expect(page.getByTestId('todo-title').getByText(airplaneEmoji, { exact: true })).toBeVisible();
+
+await test.step ('Adding ToDo Item 👍🏿', async() => 
+{
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(darkSkinToneThumbUp);
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
+  await expect(page.getByTestId('todo-title')).toHaveCount(2);
+    await expect(page.getByTestId('todo-title').getByText(darkSkinToneThumbUp, { exact: true })).toBeVisible();
+
 });
 
-await test.step ('Adding Repeat ToDo Item', async() => 
+await test.step ('Adding ToDo Item with NBSP Space Character', async() => 
 {
-  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(toDo3);
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(NBSP);
   await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
-  await expect(page.getByTestId('todo-title')).toBeVisible();
-  await expect(page.locator('body')).toContainText('2 item left');
-    await expect(page.getByText(toDo2, { exact: true }).first()).toBeVisible();
-    await expect(page.getByText(toDo2, { exact: true }).last()).toBeVisible();
+    await expect(page.getByTestId('todo-title')).toHaveCount(2);
+    await expect(page.getByTestId('todo-title').getByText(NBSP, { exact: true })).toBeHidden();
+
 });
 
-  });
+await test.step ('Adding ToDo Item with Zero Width Space', async() => 
+{
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).fill(zeroWidthSpace);
+  await page.getByRole('textbox', { name: 'What needs to be done?' }).press('Enter');
+    await expect(page.getByTestId('todo-title')).toHaveCount(2);
+    await expect(page.getByTestId('todo-title').getByText(zeroWidthSpace, { exact: true })).toBeHidden();
+
+});
+
+  })
+
+})
