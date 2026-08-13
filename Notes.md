@@ -1,0 +1,30 @@
+- **What would you add or improve if you had another hour?**  
+  - I would create additional files to store POM items, refactoring the code to be cleaner.  
+- **How would you integrate this suite into a CI/CD pipeline?**  
+  - I would use GitHub, as well as Microsoft Azure's Playwright Cloud Workspace, taking advantage of the built-in features of both to allow the test to run, scale, and have its results easily viewable. I would also set the test to run every PR, push to main, as well as nightly.
+- **Is there anything about this app's behavior that surprised or concerned you from a quality standpoint?**  
+  - Doesn’t handle longer items well:  
+    - Doesn’t wrap well; text gets cut in the middle of words, making it a bit of a pain to read.  
+    - Doesn’t expand, or allow the user to expand the list to read longer to-dos easily  
+  - No way to sort or rearrange the list, aside from those basic statuses.  
+  - Not accessible outside of keyboard use.  
+    - Can’t add a task without using the Enter key.  
+    - Can’t edit ToDo without using a mouse.  
+    - Can cancel edit by entering 'esc'.
+        - Clicking outside of the editing field, tab, or enter key saves any changes made.	  
+      - This is double-edged, allowing a user a way to leave in an accessible manner, but give more chances of saving in error. 
+        - *Doesn’t give the user a way to cancel without making changes*  
+  - Not clear on how to delete an item at a glance.  
+    - No ‘x’ icon until you hover over an item.  
+  - Not clear what the downward arrow button does by looking; it selects all, but could be confused for a Submit/Expand/Collapse button or a Sort button.  
+    - No hover-over text to help with possible confusion.  
+  - While you can navigate through the page while tabbing, it's not very clear where you are on the page; the elements don’t provide an outline/focus ring to let the user know what is currently selected.  
+  - No Validation provided when entering a ToDo that is an empty string.  
+    - An error message would be nice, as a user can enter a ToDo with the Completed Filter on, and it would appear successful if it were an empty string.  
+  - Can enter the same identical ToDo multiple times.  
+    - This may be on purpose, but it could easily become cumbersome.  
+      - *Ex: User creates ‘brush teeth’ ToDo once a day for a year.*  
+  - The filter appears at the bottom of the ToDo list. This can lead to the filters being lost, not used, or not looked at by a user if their ToDo list is long. (See previous point)   
+  - The Complete Selector/Checkbox appears to display halfway down a ToDo, making longer ToDos or mistakes harder to remove.  
+  - Instructions were provided to edit a ToDo, but not how to add, delete, or mark as Complete.  
+  - Doesn’t let the user know how to save their progress, or rather, how they don’t have to, but will lose the details if they clear their local site data.

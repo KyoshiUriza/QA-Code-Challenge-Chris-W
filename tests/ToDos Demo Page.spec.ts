@@ -2,9 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const  toDo : string = "Buy Milk!";
 const  toDo2 : string = "Buy Bread!";
-const  toDo3 : string = "Buy Plane Tickets to Japan";
 const zeroWidthSpace: string = '\u200B';
-const zeroWidthJoiner: string = '\u200D';
 const NBSP: string = '\u00A0';
 const airplaneEmoji: any = "✈️";
 const darkSkinToneThumbUp: any = "👍🏿";
