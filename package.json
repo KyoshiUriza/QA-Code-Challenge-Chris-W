@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/KyoshiUriza/QA-Code-Challange-Chris-W#readme",
   "devDependencies": {
+    "@azure/identity": "^4.13.1",
+    "@azure/playwright": "^1.1.6",
     "@playwright/test": "^1.62.1",
     "@types/node": "^26.2.0",
     "@typescript-eslint/parser": "^8.67.0",

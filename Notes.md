@@ -1,8 +1,10 @@
 - **What would you add or improve if you had another hour?**  
-  - I would create additional files to store POM items, refactoring the code to be cleaner.  
+  - I would create additional files to store POM items, refactoring the code to be cleaner. (Will try to do this and push a new update if I get the addtional hour!)  
 - **How would you integrate this suite into a CI/CD pipeline?**  
-  - I would use GitHub, as well as Microsoft Azure's Playwright Cloud Workspace, taking advantage of the built-in features of both to allow the test to run, scale, and have its results easily viewable. I would also set the test to run every PR, push to main, as well as nightly.
-- **Is there anything about this app's behavior that surprised or concerned you from a quality standpoint?**  
+  - I would use GitHub to store the test suite, as well as Microsoft Azure's Playwright Cloud Workspace, taking advantage of the built-in features of both to allow the test to run, scale, and have its results easily viewable. I would also set the test to run every PR, push to main, as well as nightly.
+    - Azure's dependency is already installed in the suite. The next steps would be to install Azure CLI in order to log in to a registered account and begin configuring the playwright.service.config as well as Azure to run the test suite.
+- **Is there anything about this app's behavior that surprised or concerned you from a quality standpoint?** 
+  - Page is very bright and the choosen colors make some elements hard to see with certain monitor settings.
   - Doesn’t handle longer items well:  
     - Doesn’t wrap well; text gets cut in the middle of words, making it a bit of a pain to read.  
     - Doesn’t expand, or allow the user to expand the list to read longer to-dos easily  
@@ -13,7 +15,6 @@
     - Can cancel edit by entering 'esc'.
         - Clicking outside of the editing field, tab, or enter key saves any changes made.	  
       - This is double-edged, allowing a user a way to leave in an accessible manner, but give more chances of saving in error. 
-        - *Doesn’t give the user a way to cancel without making changes*  
   - Not clear on how to delete an item at a glance.  
     - No ‘x’ icon until you hover over an item.  
   - Not clear what the downward arrow button does by looking; it selects all, but could be confused for a Submit/Expand/Collapse button or a Sort button.  
