@@ -5,8 +5,8 @@ import { TODO, TODO_2 } from './data/todo-data';
  * Editing is the flow the app's own instructions describe and the one the
  * original suite did not cover at all.
  */
-test.describe('Editing a todo', () => {
-  test('saves an edit committed with Enter', async ({ todoPage }) => {
+test.describe('Editing a todo', { tag: '@regression' }, () => {
+  test('saves an edit committed with Enter', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2);
 
     await todoPage.editTodo(TODO, 'Buy Oat Milk', 'enter');

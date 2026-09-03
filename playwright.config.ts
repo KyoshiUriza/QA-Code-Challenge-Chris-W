@@ -16,9 +16,11 @@ export default defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
-  // forbidOnly: !!process.env.CI,
-  // /* Retry on CI only */
-  // retries: process.env.CI ? 2 : 0,
+  forbidOnly: !!process.env.CI,
+  /* Retry on CI only, so a flaky test still produces a trace to diagnose. */
+  retries: process.env.CI ? 2 : 0,
+  /* But a test that only passes on retry is a flake, not a pass: fail the build. */
+  failOnFlakyTests: !!process.env.CI,
   // /* Opt out of parallel tests on CI. */
   // workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -31,6 +33,13 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
+
+  /*
+   * Test tiers are tags, selected with --grep:
+   *   @smoke      npm run test:smoke      — critical path, chromium only, ~15s
+   *   @regression npm run test:regression — the whole suite, every browser
+   *   @a11y       npm run test:a11y       — the accessibility checks
+   */
 
   /* Configure projects for major browsers */
   projects: [

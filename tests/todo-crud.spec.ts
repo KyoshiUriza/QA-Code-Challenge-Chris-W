@@ -1,8 +1,14 @@
 import { test, expect } from './fixtures/todo-fixtures';
 import { TODO, TODO_2, TODO_3 } from './data/todo-data';
 
-test.describe('Creating, completing and deleting todos', () => {
-  test('adds a todo and shows it in the list', async ({ todoPage }) => {
+/**
+ * Tiers, applied with Playwright's `tag` option and selected with `--grep`:
+ *  @smoke      the few tests that prove the app is fundamentally alive
+ *  @regression the full suite, run on pull requests
+ * Smoke tests carry both tags, so the regression run still includes them.
+ */
+test.describe('Creating, completing and deleting todos', { tag: '@regression' }, () => {
+  test('adds a todo and shows it in the list', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.addTodo(TODO);
 
     await todoPage.expectTitles([TODO]);
@@ -17,7 +23,7 @@ test.describe('Creating, completing and deleting todos', () => {
     await todoPage.expectCounter('3 items left');
   });
 
-  test('marks a todo complete and back to active', async ({ todoPage }) => {
+  test('marks a todo complete and back to active', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2);
 
     await todoPage.complete(TODO);
@@ -31,7 +37,7 @@ test.describe('Creating, completing and deleting todos', () => {
     await expect(todoPage.clearCompleted).toBeHidden();
   });
 
-  test('deletes an active todo and leaves the rest untouched', async ({ todoPage }) => {
+  test('deletes an active todo and leaves the rest untouched', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2);
 
     await todoPage.remove(TODO);

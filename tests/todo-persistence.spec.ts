@@ -5,8 +5,8 @@ import { TODO, TODO_2 } from './data/todo-data';
  * Notes.md: the app never tells the user their list is stored locally, or that
  * clearing site data loses it. These tests pin the behavior that promise rests on.
  */
-test.describe('Persistence', () => {
-  test('todos and their state survive a reload', async ({ todoPage }) => {
+test.describe('Persistence', { tag: '@regression' }, () => {
+  test('todos and their state survive a reload', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2);
     await todoPage.complete(TODO_2);
 

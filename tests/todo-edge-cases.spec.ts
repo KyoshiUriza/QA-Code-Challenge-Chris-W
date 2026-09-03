@@ -17,7 +17,7 @@ import {
  * real: apps have crashed on an emoji pasted into a notes field, and invisible
  * characters pasted by accident create rows a user cannot see or explain.
  */
-test.describe('Edge cases: input handling', () => {
+test.describe('Edge cases: input handling', { tag: '@regression' }, () => {
   test('accepts an emoji', async ({ todoPage }) => {
     await todoPage.addTodo(AIRPLANE_EMOJI);
 

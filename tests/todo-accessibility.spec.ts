@@ -5,7 +5,7 @@ import { TODO, TODO_2 } from './data/todo-data';
  * Keyboard and accessible-name coverage for the concerns raised in Notes.md.
  * Each test names the WCAG 2.2 AA success criterion it is about.
  */
-test.describe('Accessibility', () => {
+test.describe('Accessibility', { tag: ['@regression', '@a11y'] }, () => {
   test('the new-todo input is focused on load, so a keyboard user can start typing (2.4.3 Focus Order)', async ({
     todoPage,
   }) => {

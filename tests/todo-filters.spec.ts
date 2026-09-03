@@ -1,13 +1,13 @@
 import { test, expect } from './fixtures/todo-fixtures';
 import { TODO, TODO_2, TODO_3 } from './data/todo-data';
 
-test.describe('Filtering', () => {
+test.describe('Filtering', { tag: '@regression' }, () => {
   test.beforeEach(async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2, TODO_3);
     await todoPage.complete(TODO_2);
   });
 
-  test('Active shows only unfinished todos', async ({ todoPage }) => {
+  test('Active shows only unfinished todos', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.filterBy('Active');
 
     await todoPage.expectTitles([TODO, TODO_3]);

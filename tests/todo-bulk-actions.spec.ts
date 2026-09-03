@@ -5,7 +5,7 @@ import { TODO, TODO_2, TODO_3 } from './data/todo-data';
  * The toggle-all control and Clear completed. Notes.md flags the toggle-all
  * chevron as unlabeled to the eye; these tests cover what it actually does.
  */
-test.describe('Bulk actions', () => {
+test.describe('Bulk actions', { tag: '@regression' }, () => {
   test.beforeEach(async ({ todoPage }) => {
     await todoPage.addTodos(TODO, TODO_2, TODO_3);
   });
@@ -43,7 +43,7 @@ test.describe('Bulk actions', () => {
     await expect(todoPage.toggleAll).not.toBeChecked();
   });
 
-  test('Clear completed removes finished todos and keeps the rest', async ({ todoPage }) => {
+  test('Clear completed removes finished todos and keeps the rest', { tag: '@smoke' }, async ({ todoPage }) => {
     await todoPage.complete(TODO_2);
 
     await todoPage.clearCompletedTodos();
